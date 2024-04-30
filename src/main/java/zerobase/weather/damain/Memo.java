@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "memo")
+@Entity(name = "memo")      // db에 있는 memo 테이블과 매핑
 public class Memo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY: 키값 생성을 db에 맡김
