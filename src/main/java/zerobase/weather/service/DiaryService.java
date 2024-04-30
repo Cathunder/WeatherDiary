@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import zerobase.weather.WeatherApplication;
+import zerobase.weather.config.GlobalExceptionHandler;
 import zerobase.weather.damain.DateWeather;
 import zerobase.weather.damain.Diary;
 import zerobase.weather.error.InvalidDate;
@@ -100,10 +101,11 @@ public class DiaryService {
     public List<Diary> readDiary(LocalDate date) {
         logger.debug("read diary");
 
-        if (date.isAfter(LocalDate.ofYearDay(3050, 1))) {
-            throw new InvalidDate();
-        }
-        
+//        GlobalExceptionHandler 확인 위해 주석처리
+//        if (date.isAfter(LocalDate.ofYearDay(3050, 1))) {
+//            throw new InvalidDate();
+//        }
+
         return diaryRepository.findAllByDate(date);
     }
 
