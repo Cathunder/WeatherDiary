@@ -6,6 +6,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import zerobase.weather.damain.Diary;
 import zerobase.weather.repository.DiaryRepository;
 
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 public class DiaryService {
 
     // @Value: 민감한 값들을 그대로 코드에 넣으면 위험함. 환경에 따른 유연한 값 설정을 위해 사용
@@ -31,6 +34,7 @@ public class DiaryService {
         this.diaryRepository = diaryRepository;
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void createDiary(LocalDate date, String text) {
         // open weather map에서 날씨 데이터 가져오기
         String weatherData = getWeatherString();
@@ -48,6 +52,7 @@ public class DiaryService {
         diaryRepository.save(nowDiary);
     }
 
+    @Transactional(readOnly = true)
     public List<Diary> readDiary(LocalDate date) {
         return diaryRepository.findAllByDate(date);
     }
@@ -56,12 +61,14 @@ public class DiaryService {
         return diaryRepository.findAllByDateBetween(startDate, endDate);
     }
 
+    @Transactional(readOnly = false)
     public void updateDiary(LocalDate date, String text) {
         Diary nowDiary = diaryRepository.getFirstByDate(date);
         nowDiary.setText(text);
         diaryRepository.save(nowDiary);
     }
 
+    @Transactional(readOnly = false)
     public void deleteDiary(LocalDate date) {
         diaryRepository.deleteAllByDate(date);
     }
