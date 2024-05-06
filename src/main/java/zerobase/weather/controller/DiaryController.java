@@ -3,7 +3,6 @@ package zerobase.weather.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import zerobase.weather.damain.Diary;
 import zerobase.weather.service.DiaryService;
